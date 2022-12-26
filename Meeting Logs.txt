@@ -1,0 +1,10 @@
+Dec 26 2022
+Met at 1pm to go over the requirements fro the next submission.
+Workload was evenly split with each member having something to do.
+Samuel and Sravya will work on the class diagrams and algorithm analysis of the class(es)/algorithm(s) 
+they are responsible for.
+Jude will write on the system interface.
+This was agreed upon by all group members and any further concerns/opinions/input can be voiced 
+in the team chat.
+
+Team Leader: Samuel Adetoro
