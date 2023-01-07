@@ -32,7 +32,7 @@ while True:
         now = datetime.datetime.now()
         date_time = now.strftime("%Y-%m-%d_%H-%M-%S")
 
-        savepath = r'C:\Users\User\Documents\School\Degree Project\Degree-Project--Smoking-Detection-with-raspberryPi\data\CNN_test'
+        savepath = r'C:\Users\User\Documents\School\Degree Project\Degree-Project--Smoking-Detection-with-raspberryPi\CNN_test'
         os.chdir(savepath)
 
         # Save the frame to a file with the current date and time in the file name
