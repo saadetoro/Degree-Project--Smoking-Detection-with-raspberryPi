@@ -1,28 +1,12 @@
-'''This code creates a CNN with four convolutional layers, two max pooling layers, and two dense layers. 
-The input shape is (224,224,3), which means the input images are 224x224 pixels and have 3 color channels (RGB).
-The output of the model is a single sigmoid activation, which represents the probability of the input image 
-containing a smoking person.
-You will need to have training data (i.e., images of smoking and non-smoking people) and 
-their corresponding labels (1 for smoking and 0 for non-smoking) in order to train and test the model. 
-You can use the fit() and evaluate() methods to train and test the model, respectively.'''
-
-
+import cv2
 import tensorflow as tf
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.models import Sequential
-from sklearn.model_selection import train_test_split
-
-'''This will split the data into a training set (80% of the data), a validation set (10% of the data), and 
-a test set (10% of the data). You can then use the training set to train the model, the validation set 
-to tune the model's hyperparameters, and the test set to evaluate the model's performance.'''
-
-# Load the images and labels
-X = ... # a numpy array of shape (n_samples, height, width, channels)
-y = ... # a numpy array of shape (n_samples,)
-
-# Split the data into a training set, a validation set, and a test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=42)
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import numpy
+import time
+import datetime
+import os
 
 # Define the model
 model = Sequential()
@@ -47,11 +31,37 @@ model.add(Dense(1, activation='sigmoid'))
 # Compile the model
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
+# Load the training and test data
+
+train_path = 'archive\data\train'
+
+train_data_generator = ImageDataGenerator(rescale=1./255,
+                                         rotation_range=45,
+                                         width_shift_range=0.2,
+                                         height_shift_range=0.2,
+                                         shear_range=0.2,
+                                         zoom_range=0.2,
+                                         horizontal_flip=True,
+                                         fill_mode='nearest')
+
+test_path = 'archive\data\test\test'
+
+test_data_generator = ImageDataGenerator(rescale=1./255)
+
+# Load the training and test data
+train_data = train_data_generator.flow_from_directory(r'C:\Users\User\Documents\School\Degree Project\Degree-Project--Smoking-Detection-with-raspberryPi\archive\data\train',
+                                                      target_size=(224,224),
+                                                      batch_size=64,
+                                                      class_mode='binary')
+test_data = test_data_generator.flow_from_directory(r'C:\Users\User\Documents\School\Degree Project\Degree-Project--Smoking-Detection-with-raspberryPi\archive\data\test',
+                                                     target_size=(224,224),
+                                                     batch_size=1,
+                                                     class_mode='binary')
+
 # Train the model
-model.fit(x_train, y_train, epochs=10, batch_size=64, validation_data=(x_val, y_val))
+model.fit_generator(train_data,
+                    epochs=10,
+                    validation_data=test_data)
 
-# Test the model
-model.evaluate(x_test, y_test)
-
-
-model.save('models/smoking_detection_model.h5')
+# Save the model
+model.save('smoking_detection_model.h5')

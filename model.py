@@ -1,8 +1,12 @@
 import cv2
 import tensorflow as tf
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import numpy
+import time
 import datetime
+import os
 
 # Define the model
 model = Sequential()
@@ -45,27 +49,28 @@ test_path = 'archive\data\test\test'
 test_data_generator = ImageDataGenerator(rescale=1./255)
 
 # Load the training and test data
-train_data = train_data_generator.flow_from_directory('train',
+train_data = train_data_generator.flow_from_directory(r'C:\Users\User\Documents\School\Degree Project\Degree-Project--Smoking-Detection-with-raspberryPi\archive\data\train',
                                                       target_size=(224,224),
                                                       batch_size=64,
                                                       class_mode='binary')
-test_data = test_data_generator.flow_from_directory('test',
+test_data = test_data_generator.flow_from_directory(r'C:\Users\User\Documents\School\Degree Project\Degree-Project--Smoking-Detection-with-raspberryPi\archive\data\test',
                                                      target_size=(224,224),
-                                                     batch_size=64,
+                                                     batch_size=1,
                                                      class_mode='binary')
 
-
-
-'''X_train = ... # a numpy array of shape (n_samples, height, width, channels)
-y_train = ... # a numpy array of shape (n_samples,)
-X_test = ... # a numpy array of shape (n_samples, height, width, channels)
-y_test = ... # a numpy array of shape (n_samples,)'''
-
 # Train the model
-model.fit(X_train, y_train, epochs=10, batch_size=64, validation_data=(X_test, y_test))
+model.fit_generator(train_data,
+                    epochs=10,
+                    validation_data=test_data)
 
 # Save the model
 model.save('smoking_detection_model.h5')
+
+# Load the trained model
+model = load_model('smoking_detection_model.h5')
+
+# Set the time interval between frames (in seconds)
+time_interval = 5
 
 # Open the webcam
 cap = cv2.VideoCapture(0)
@@ -91,7 +96,7 @@ while True:
         cv2.putText(frame, 'Smoking', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,255,0), 3)
     else:
         cv2.putText(frame, 'Non-smoking', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,255), 3)
-
+    
     # Display the frame
     cv2.imshow('Webcam', frame)
 
