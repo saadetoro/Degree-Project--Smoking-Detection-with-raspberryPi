@@ -7,8 +7,8 @@ function and the frame is displayed using the imshow() function. The loop contin
 
 import cv2
 import tensorflow as tf
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
-from tensorflow.keras.models import load_model
+from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from tensorflow.python.keras.models import load_model
 
 # Load the trained model
 model = load_model('smoking_detection_model.h5')

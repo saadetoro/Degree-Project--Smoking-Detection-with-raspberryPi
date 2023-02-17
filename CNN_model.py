@@ -1,8 +1,9 @@
 import cv2
 import tensorflow as tf
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from tensorflow.python.keras.models import Sequential
+from tensorflow import keras
+from keras.preprocessing.image import ImageDataGenerator
 import numpy
 import time
 import datetime
@@ -59,7 +60,7 @@ test_data = test_data_generator.flow_from_directory(r'C:\Users\User\Documents\Sc
                                                      class_mode='binary')
 
 # Train the model
-model.fit_generator(train_data,
+model.fit(train_data,
                     epochs=10,
                     validation_data=test_data)
 
