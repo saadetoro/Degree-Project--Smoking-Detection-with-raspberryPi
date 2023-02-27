@@ -11,7 +11,7 @@ def prepare(file):
 CATEGORIES = ["Smoking", "Not-Smoking"]
 
 model = tf.keras.models.load_model("CNN.model")
-image = prepare('gg0272.png') #your image path"test.jpg"
+image = prepare('gg0081.jpg') #your image path"test.jpg"
 prediction = model.predict([image])
 prediction = list(prediction[0])
 print(CATEGORIES[prediction.index(max(prediction))])

@@ -11,7 +11,7 @@ from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense,
 from tensorflow.python.keras.models import load_model
 
 # Load the trained model
-model = load_model('smoking_detection_model.h5')
+#model = load_model('smoking_detection_model.h5')
 
 # Open the webcam
 cap = cv2.VideoCapture(0)
@@ -30,13 +30,13 @@ while True:
     frame = frame[None, ...] # add a batch dimension
 
     # Predict whether the frame contains a smoking person
-    prediction = model.predict(frame)[0][0]
+    #prediction = model.predict(frame)[0][0]
 
     # Display the prediction
-    if prediction > 0.5:
-        cv2.putText(frame, 'Smoking', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,255,0), 3)
-    else:
-        cv2.putText(frame, 'Non-smoking', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,255), 3)
+    #if prediction > 0.5:
+        #cv2.putText(frame, 'Smoking', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,255,0), 3)
+    #else:
+        #cv2.putText(frame, 'Non-smoking', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,255), 3)
 
     # Display the frame
     cv2.imshow('Webcam', frame)
