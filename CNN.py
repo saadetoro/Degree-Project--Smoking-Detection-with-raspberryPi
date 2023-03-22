@@ -55,14 +55,14 @@ model.compile(loss="sparse_categorical_crossentropy",
 history = model.fit(X, Y, batch_size=32, epochs=40, validation_split=0.1)
 
 # Saving the model
-model_json = model.to_json()
+SDM_json = model.to_json()
 with open("model.json", "w") as json_file :
-	json_file.write(model_json)
+	json_file.write(SDM_json)
 
-model.save_weights("model.h5")
+model.save("SDM.h5")
 print("Saved model to disk")
 
-model.save('CNN.model')
+model.save('SDM.model')
 
 # Printing a graph showing the accuracy changes during the training phase
 print(history.history.keys())
